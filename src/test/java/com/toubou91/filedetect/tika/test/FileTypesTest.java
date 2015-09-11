@@ -1,109 +1,105 @@
 package com.toubou91.filedetect.tika.test;
 
-import org.apache.tika.io.TikaInputStream;
-import org.apache.tika.metadata.Metadata;
-import org.apache.tika.mime.MediaType;
-import org.apache.tika.parser.AutoDetectParser;
 import org.junit.Assert;
 import org.junit.Test;
-import org.slf4j.*;
+import org.slf4j.Logger;
+
+import com.toubou91.filedetect.tika.example.FileTypeValidator;
 
 public class FileTypesTest {
+
+	private final Logger LOG = org.slf4j.LoggerFactory.getLogger(FileTypesTest.class);
 	
-	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(FileTypesTest.class);
-	private String filename = null;
-	
+
 	/**
 	 * Test CSV file detection.
 	 */
 	@Test
 	public void testCSV() {
-		filename = "/SacramentocrimeJanuary2006.csv";
-		
 		try {
-			TikaInputStream stream = TikaInputStream.get(getClass().getResourceAsStream(filename));
-			MediaType  mediaType = new AutoDetectParser().getDetector().detect(stream, new Metadata());
-			
-			logger.debug("File " + filename + " is of type " + mediaType.getBaseType() + ".");
-			Assert.assertEquals("text/plain", mediaType.getBaseType().toString());
+			Assert.assertTrue(FileTypeValidator.isAcceptedSupportingDoc("SacramentocrimeJanuary2006.csv"));
 		} catch (Exception e) {
 			Assert.fail(e.getMessage());
-			logger.debug(e.getMessage());
+			LOG.debug(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * Test PDF file detection.
 	 */
 	@Test
 	public void testPdf() {
-		filename = "/leading_the_way_2015.pdf";
 		try {
-			TikaInputStream stream = TikaInputStream.get(getClass().getResourceAsStream(filename));
-			MediaType  mediaType = new AutoDetectParser().getDetector().detect(stream, new Metadata());
 			
-			logger.debug("File " + filename + " is of type " + mediaType.getBaseType() + ".");
-			Assert.assertEquals("application/pdf", mediaType.getBaseType().toString());
+			Assert.assertTrue(FileTypeValidator.isAcceptedSupportingDoc("leading_the_way_2015.pdf"));
 		} catch (Exception e) {
 			Assert.fail(e.getMessage());
-			logger.debug(e.getMessage());
+			LOG.debug(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * Test XML file detection.
 	 */
 	@Test
 	public void testXml() {
-		filename = "/note.xml";
-		
 		try {
-			TikaInputStream stream = TikaInputStream.get(getClass().getResourceAsStream(filename));
-			MediaType  mediaType = new AutoDetectParser().getDetector().detect(stream, new Metadata());
-			
-			logger.debug("File " + filename + " is of type " + mediaType.getBaseType() + ".");
-			Assert.assertEquals("application/xml", mediaType.getBaseType().toString());
+			Assert.assertTrue(FileTypeValidator.isAcceptedSupportingDoc("note.xml"));
 		} catch (Exception e) {
 			Assert.fail(e.getMessage());
-			logger.debug(e.getMessage());
+			LOG.debug(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * Test JPEG image detection.
 	 */
 	@Test
 	public void testJpeg() {
-		filename = "/sample_image.jpg";
-		
 		try {
-			TikaInputStream stream = TikaInputStream.get(getClass().getResourceAsStream(filename));
-			MediaType  mediaType = new AutoDetectParser().getDetector().detect(stream, new Metadata());
-			
-			logger.debug("File " + filename + " is of type " + mediaType.getBaseType() + ".");
-			Assert.assertEquals("image/jpeg", mediaType.getBaseType().toString());
+			Assert.assertTrue(FileTypeValidator.isAcceptedSupportingDoc("sample_image.jpg"));
 		} catch (Exception e) {
 			Assert.fail(e.getMessage());
-			logger.debug(e.getMessage());
+			LOG.debug(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * Test HTML file detection.
 	 */
 	@Test
 	public void testHtml() {
-		filename = "/index.html";
-		
 		try {
-			TikaInputStream stream = TikaInputStream.get(getClass().getResourceAsStream(filename));
-			MediaType  mediaType = new AutoDetectParser().getDetector().detect(stream, new Metadata());
-			
-			logger.debug("File " + filename + " is of type " + mediaType.getBaseType() + ".");
-			Assert.assertEquals("text/html", mediaType.getBaseType().toString());
+			Assert.assertTrue(FileTypeValidator.isAcceptedSupportingDoc("index.html"));
 		} catch (Exception e) {
 			Assert.fail(e.getMessage());
-			logger.debug(e.getMessage());
+			LOG.debug(e.getMessage());
+		}
+	}
+
+	/**
+	 * Test doc file detection.
+	 */
+	@Test
+	public void testDoc() {
+		try {
+			Assert.assertTrue(FileTypeValidator.isAcceptedSupportingDoc("test.doc"));
+		} catch (Exception e) {
+			Assert.fail(e.getMessage());
+			LOG.debug(e.getMessage());
+		}
+	}
+	
+	/**
+	 * Test docx file detection.
+	 */
+	@Test
+	public void testDocx() {
+		try {			
+			Assert.assertTrue(FileTypeValidator.isAcceptedSupportingDoc("test.docx"));
+		} catch (Exception e) {
+			Assert.fail(e.getMessage());
+			LOG.debug(e.getMessage());
 		}
 	}
 }
